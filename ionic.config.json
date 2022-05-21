@@ -1,7 +1,0 @@
-{
-  "name": "pizzer",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "vue"
-}
