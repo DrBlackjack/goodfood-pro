@@ -1,7 +1,0 @@
-{
-  "name": "goodfood-pro",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "vue"
-}
