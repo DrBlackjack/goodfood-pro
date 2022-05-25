@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onsubmit">
+  <form @submit.prevent="loginHandler">
     <va-input
       class="mb-3"
       v-model="email"
@@ -24,12 +24,15 @@
     </div>
 
     <div class="d-flex justify--center mt-3">
-      <va-button @click="onsubmit" class="my-0">{{ $t('auth.login') }}</va-button>
+      <va-button @click="loginHandler" class="my-0">{{ $t('auth.login') }}</va-button>
     </div>
   </form>
 </template>
 
-<script>
+<script lang="ts">
+import { supabase } from '../../../../supabase'
+import { ApiError } from '@supabase/gotrue-js';
+
 export default {
   name: 'login',
   data () {
@@ -42,19 +45,43 @@ export default {
     }
   },
   computed: {
-    formReady () {
-      return !this.emailErrors.length && !this.passwordErrors.length
-    },
+    // formReady () {
+    //   return !this.emailErrors.length && !this.passwordErrors.length
+    // },
   },
   methods: {
-    onsubmit () {
-      this.emailErrors = this.email ? [] : ['Email is required']
-      this.passwordErrors = this.password ? [] : ['Password is required']
-      if (!this.formReady) {
-        return
-      }
-      this.$router.push({ name: 'dashboard' })
-    },
+    // onsubmit () {
+    //   this.emailErrors = this.email ? [] : ['Email is required']
+    //   this.passwordErrors = this.password ? [] : ['Password is required']
+    //   if (!this.formReady) {
+    //     return
+    //   }
+    //   this.$router.push({ name: 'dashboard' })
+    // },
+
+    async loginHandler() {
+            const email = this.email;
+            const password = this.password;
+            if(email && password) {
+                try {
+                    console.log("loginHandler");
+                    // startLoading("Loading");
+                    const { user, session, error } = await supabase.auth.signIn({
+                        email: email,
+                        password: password,
+                    },
+                    {
+                        shouldCreateUser: false
+                    })
+                    if (error) {throw error}
+                } catch (error: ApiError | any) {
+                    // notification(error.error_description || error.message, TypeNotification.Danger);
+                } 
+                finally {
+                    // await stopLoading();
+                }
+            }
+        },
   },
 }
 </script>

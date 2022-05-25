@@ -24,14 +24,6 @@ const i18nConfig = {
 const app = createApp(App)
 app.use(store)
 app.use(router)
-if (process.env.VUE_APP_GTM_ENABLED === 'true') {
-  const gtmConfig = {
-    id: process.env.VUE_APP_GTM_KEY,
-    debug: false,
-    vueRouter: router,
-  }
-  app.use(createGtm(gtmConfig))
-}
 app.use(createI18n(i18nConfig))
 app.use(VuesticPlugin, vuesticGlobalConfig)
 app.mount('#app')
