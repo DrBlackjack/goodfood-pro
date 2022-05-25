@@ -12,8 +12,7 @@
           <va-card-content>
             <va-tabs v-model="tabIndex" center>
               <template #tabs>
-                <va-tab name="login">{{ $t("auth.login") }}</va-tab>
-                <va-tab name="signup">{{ $t("auth.createNewAccount") }}</va-tab>
+                <label   name="login">{{ $t("auth.login") }}</label>
               </template>
             </va-tabs>
 
