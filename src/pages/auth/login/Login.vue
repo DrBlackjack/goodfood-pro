@@ -54,24 +54,18 @@ export default {
     }
   },
   computed: {
-    // formReady () {
-    //   return !this.emailErrors.length && !this.passwordErrors.length
-    // },
+    formReady () {
+      return !this.emailErrors.length && !this.passwordErrors.length
+    },
   },
   methods: {
-    // onsubmit () {
-    //   this.emailErrors = this.email ? [] : ['Email is required']
-    //   this.passwordErrors = this.password ? [] : ['Password is required']
-    //   if (!this.formReady) {
-    //     return
-    //   }
-    //   this.$router.push({ name: 'dashboard' })
-    // },
-
     async loginHandler() {
             const email = this.email;
             const password = this.password;
             const stayLogged = this.stayLogged;
+            this.emailErrors = this.email ? [] : ['Email is required']
+            this.passwordErrors = this.password ? [] : ['Password is required']
+
             if(email && password) {
                 try {
                     this.loading = true;
@@ -91,7 +85,7 @@ export default {
                     }
                 } 
                 catch (error: ApiError | any) {
-                    // notification(error.error_description || error.message, TypeNotification.Danger);
+                    this.$vaToast.init({ message: 'Identifiants incorrect', color:'danger', duration: 3000 })
                 } 
                 finally {
                     this.loading = false;
