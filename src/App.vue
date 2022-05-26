@@ -24,19 +24,12 @@ export default defineComponent({
     // Method that signs out the user
     async signOut() {
       try {
-        console.log("signOut function");
-          // await startLoading("Loading");
           const { error } = await supabase.auth.signOut()
           if (error) {throw error}
-          // notification("Disconnected", TypeNotification.Success);
         } 
         catch(error) {
             console.log(error);
-            // notification("An error occured", TypeNotification.Danger);
         } 
-        finally {
-            // stopLoading();
-        }
     }
   }
 });

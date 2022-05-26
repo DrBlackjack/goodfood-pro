@@ -20,6 +20,7 @@
       <va-list-item
         v-for="option in options"
         :key="option.name"
+        @click="functionCallHandler(option.click)"
       >
         <router-link
           :to="{name: option.redirectTo}"
@@ -32,8 +33,9 @@
   </va-dropdown>
 </template>
 
-<script>
+<script lang="ts">
 import { useGlobalConfig } from 'vuestic-ui'
+import { supabase } from '../../../../../supabase'
 
 export default {
   name: 'profile-section',
@@ -53,13 +55,30 @@ export default {
         {
           name: 'logout',
           redirectTo: 'login',
+          click: 'disconnectHandler'
         },
       ],
     },
   },
   computed: {
     theme() { return useGlobalConfig().getGlobalConfig() },
-  }
+  },
+  methods: {
+        async disconnectHandler() {
+            try {
+                const { error } = await supabase.auth.signOut()
+                if (error) {throw error}
+                localStorage.clear();
+            } 
+            catch(error) {
+                console.log("error is");
+                console.log(error);
+            } 
+        },
+        functionCallHandler(functionName: string) {
+          this[functionName]()
+        },
+    }
 }
 </script>
 
