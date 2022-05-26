@@ -228,9 +228,11 @@ store.user = supabase.auth.user()
 supabase.auth.onAuthStateChange((_, session) => {
   if(session !== null) {
     store.user = session.user
+    router.push('dashboard')
   }
   else {
     store.user = null
+    router.push('login')
   }
 })
 
