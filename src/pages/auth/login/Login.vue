@@ -65,7 +65,6 @@ export default {
             const stayLogged = this.stayLogged;
             if(email && password) {
                 try {
-                    console.log("loginHandler");
                     // startLoading("Loading");
                     const { user, session, error } = await supabase.auth.signIn({
                         email: email,
