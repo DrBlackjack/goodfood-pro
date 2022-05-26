@@ -9,6 +9,15 @@ export default [
     ],
   },
   {
+    categoryName: 'Employees',
+    items: [
+      {
+        itemName: 'Employees',
+        itemLink: '/admin/employees',
+      },
+    ],
+  },
+  {
     categoryName: 'Statistics',
     items: [
       {
