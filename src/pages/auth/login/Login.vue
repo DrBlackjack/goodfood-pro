@@ -1,5 +1,8 @@
 <template>
-  <form @submit.prevent="loginHandler">
+  <div class="d-flex justify--center mt-3" v-if="loading">
+    <va-progress-circle indeterminate v-if="loading"/>
+  </div>
+  <form @submit.prevent="loginHandler" v-else>
     <va-input
       class="mb-3"
       v-model="email"
@@ -32,8 +35,13 @@
 <script lang="ts">
 import { supabase } from '../../../../supabase'
 import { ApiError } from '@supabase/gotrue-js';
+import CircleBars from '../../../../src/pages/admin/statistics/progress-bars/Widgets/CircleBars.vue'
 
 export default {
+  components: {
+    CircleBars
+  },
+
   name: 'login',
   data () {
     return {
@@ -42,6 +50,7 @@ export default {
       stayLogged: false,
       emailErrors: [],
       passwordErrors: [],
+      loading: false
     }
   },
   computed: {
@@ -65,7 +74,7 @@ export default {
             const stayLogged = this.stayLogged;
             if(email && password) {
                 try {
-                    // startLoading("Loading");
+                    this.loading = true;
                     const { user, session, error } = await supabase.auth.signIn({
                         email: email,
                         password: password,
@@ -85,7 +94,7 @@ export default {
                     // notification(error.error_description || error.message, TypeNotification.Danger);
                 } 
                 finally {
-                    // await stopLoading();
+                    this.loading = false;
                 }
             }
         },

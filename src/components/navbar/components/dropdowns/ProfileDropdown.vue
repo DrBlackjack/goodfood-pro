@@ -66,20 +66,14 @@ export default {
   methods: {
         async disconnectHandler() {
             try {
-                // await startLoading("Loading");
                 const { error } = await supabase.auth.signOut()
                 if (error) {throw error}
                 localStorage.clear();
-                // notification("Disconnected", TypeNotification.Success);
             } 
             catch(error) {
                 console.log("error is");
                 console.log(error);
-                // notification("An error occured", TypeNotification.Danger);
             } 
-            finally {
-                // stopLoading();
-            }
         },
         functionCallHandler(functionName: string) {
           this[functionName]()
