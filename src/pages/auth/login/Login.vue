@@ -19,7 +19,7 @@
     />
 
     <div class="auth-layout__options d-flex align--center justify--space-between">
-      <va-checkbox v-model="keepLoggedIn" class="mb-0" :label="$t('auth.keep_logged_in')"/>
+      <va-checkbox v-model="stayLogged" class="mb-0" :label="$t('auth.keep_logged_in')"/>
       <router-link class="ml-1 link" :to="{name: 'recover-password'}">{{$t('auth.recover_password')}}</router-link>
     </div>
 
@@ -39,7 +39,7 @@ export default {
     return {
       email: '',
       password: '',
-      keepLoggedIn: false,
+      stayLogged: false,
       emailErrors: [],
       passwordErrors: [],
     }
@@ -62,6 +62,7 @@ export default {
     async loginHandler() {
             const email = this.email;
             const password = this.password;
+            const stayLogged = this.stayLogged;
             if(email && password) {
                 try {
                     console.log("loginHandler");
@@ -74,7 +75,14 @@ export default {
                         shouldCreateUser: false
                     })
                     if (error) {throw error}
-                } catch (error: ApiError | any) {
+                    if(stayLogged) {
+                        localStorage.setItem('stayLogged', 'true');
+                    }
+                    else {
+                        localStorage.setItem('stayLogged', 'false');
+                    }
+                } 
+                catch (error: ApiError | any) {
                     // notification(error.error_description || error.message, TypeNotification.Danger);
                 } 
                 finally {
