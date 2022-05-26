@@ -1,18 +1,18 @@
 <template>
-  <ion-app>
-    <ion-router-outlet />
-  </ion-app>
+  <router-view/>
 </template>
 
-<script lang="ts">
-import { IonApp, IonRouterOutlet } from '@ionic/vue';
-import { defineComponent } from 'vue';
+<style lang="scss">
+@import '~@/sass/main.scss';
+#app {
+  font-family: 'Source Sans Pro', Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
 
-export default defineComponent({
-  name: 'App',
-  components: {
-    IonApp,
-    IonRouterOutlet
-  }
-});
-</script>
+body {
+  margin: 0;
+  background: var(--va-background);
+}
+</style>

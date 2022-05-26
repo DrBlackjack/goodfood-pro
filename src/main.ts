@@ -1,46 +1,29 @@
+import { VuesticPlugin } from 'vuestic-ui';
 import { createApp } from 'vue'
+import { createGtm } from 'vue-gtm'
+import { createI18n } from 'vue-i18n'
 import App from './App.vue'
-import router from './router';
+import './registerServiceWorker'
+import router from './router'
+import store from './store'
+import vuesticGlobalConfig from './services/vuestic-ui/global-config'
 
-import { IonicVue } from '@ionic/vue';
 
-/* Core CSS required for Ionic components to work properly */
-import '@ionic/vue/css/core.css';
-
-/* Basic CSS for apps built with Ionic */
-import '@ionic/vue/css/normalize.css';
-import '@ionic/vue/css/structure.css';
-import '@ionic/vue/css/typography.css';
-
-/* Optional CSS utils that can be commented out */
-import '@ionic/vue/css/padding.css';
-import '@ionic/vue/css/float-elements.css';
-import '@ionic/vue/css/text-alignment.css';
-import '@ionic/vue/css/text-transformation.css';
-import '@ionic/vue/css/flex-utils.css';
-import '@ionic/vue/css/display.css';
-
-/* Theme variables */
-import './theme/variables.css';
-
-import i18n from './i18n'
-
-const app = createApp(App).use(i18n).use(i18n)
-  .use(IonicVue)
-  .use(router);
-
-if(process.env.NODE_ENV === "local-dev")
-{
-  app.config.globalProperties.$constapi = process.env.VUE_APP_LOCAL_API_URL;
+const i18nConfig = {
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: {
+    en: require('@/i18n/en.json'),
+    cn: require('@/i18n/cn.json'),
+    es: require('@/i18n/es.json'),
+    ir: require('@/i18n/ir.json'),
+    br: require('@/i18n/br.json')
+  }
 }
 
-if(process.env.NODE_ENV === "hosted-dev")
-{
-  app.config.globalProperties.$constapi = process.env.VUE_APP_HOSTED_API_URL;
-}
-
-console.log(app.config.globalProperties.$constapi);
-
-router.isReady().then(() => {
-  app.mount('#app');
-});
+const app = createApp(App)
+app.use(store)
+app.use(router)
+app.use(createI18n(i18nConfig))
+app.use(VuesticPlugin, vuesticGlobalConfig)
+app.mount('#app')
