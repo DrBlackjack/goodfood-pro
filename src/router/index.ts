@@ -30,6 +30,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/pages/admin/dashboard/Dashboard.vue'),
       },
       {
+        name: 'employees',
+        meta: {
+          requiresAuth: true
+        },
+        path: 'employees',
+        component: () => import('@/pages/admin/employees/Employees.vue'),
+      },
+      {
         name: 'statistics',
         path: 'statistics',
         component: RouteViewComponent,

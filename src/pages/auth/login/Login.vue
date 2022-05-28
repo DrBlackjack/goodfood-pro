@@ -60,38 +60,38 @@ export default {
   },
   methods: {
     async loginHandler() {
-            const email = this.email;
-            const password = this.password;
-            const stayLogged = this.stayLogged;
-            this.emailErrors = this.email ? [] : ['Email is required']
-            this.passwordErrors = this.password ? [] : ['Password is required']
+      const email = this.email;
+      const password = this.password;
+      const stayLogged = this.stayLogged;
+      this.emailErrors = this.email ? [] : ['Email is required']
+      this.passwordErrors = this.password ? [] : ['Password is required']
 
-            if(email && password) {
-                try {
-                    this.loading = true;
-                    const { user, session, error } = await supabase.auth.signIn({
-                        email: email,
-                        password: password,
-                    },
-                    {
-                        shouldCreateUser: false
-                    })
-                    if (error) {throw error}
-                    if(stayLogged) {
-                        localStorage.setItem('stayLogged', 'true');
-                    }
-                    else {
-                        localStorage.setItem('stayLogged', 'false');
-                    }
-                } 
-                catch (error: ApiError | any) {
-                    this.$vaToast.init({ message: 'Identifiants incorrect', color:'danger', duration: 3000 })
-                } 
-                finally {
-                    this.loading = false;
-                }
+      if(email && password) {
+        try {
+            this.loading = true;
+            const { user, session, error } = await supabase.auth.signIn({
+                email: email,
+                password: password,
+            },
+            {
+                shouldCreateUser: false
+            })
+            if (error) {throw error}
+            if(stayLogged) {
+                localStorage.setItem('stayLogged', 'true');
             }
-        },
+            else {
+                localStorage.setItem('stayLogged', 'false');
+            }
+        } 
+        catch (error: ApiError | any) {
+            this.$vaToast.init({ message: 'Identifiants incorrect', color:'danger', duration: 3000 })
+        } 
+        finally {
+            this.loading = false;
+        }
+      }
+    },
   },
 }
 </script>
