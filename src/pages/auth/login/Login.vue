@@ -35,13 +35,8 @@
 <script lang="ts">
 import { supabase } from '../../../../supabase'
 import { ApiError } from '@supabase/gotrue-js';
-import CircleBars from '../../../../src/pages/admin/statistics/progress-bars/Widgets/CircleBars.vue'
 
 export default {
-  components: {
-    CircleBars
-  },
-
   name: 'login',
   data () {
     return {
