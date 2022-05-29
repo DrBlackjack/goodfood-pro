@@ -48,6 +48,9 @@
       <va-select v-for="key in Object.keys(editedItem).filter(key => key === 'role')" :key="key" v-model="editedItem[key]" :options="options" />
     </slot>
   </va-modal>
+  <div class="d-flex justify--center mt-3" v-if="loading">
+    <va-progress-circle indeterminate/>
+  </div>
 </template>
 
 <script lang="ts">
@@ -115,6 +118,8 @@ export default defineComponent({
       editedItemId: null,
       editedItem: null,
       createdItem: { ...defaultItem },
+
+      loading: false
     }
   },
 
@@ -138,10 +143,11 @@ export default defineComponent({
         ...this.items.slice(id + 1),
       ]
     },
-    addNewItem () {
-      console.log("addNewItem")
-      this.registerHandler()
-      this.items = [...this.items, { ...this.createdItem }]
+    async addNewItem () {
+      const registeredUser: boolean = await this.registerHandler()
+      if(registeredUser === true) {
+        this.items = [...this.items, { ...this.createdItem }]
+      }
       this.resetCreatedItem()
     },
     editItem () {
@@ -158,9 +164,9 @@ export default defineComponent({
     },
 
     async registerHandler() {
-      console.log(AccountType[this.createdItem['role']]);
+      let success = false;
       try {
-        // loading = true;
+        this.loading = true;
         // Send a POST request
         await axios({
           headers: {
@@ -177,6 +183,7 @@ export default defineComponent({
             accountType: AccountType[this.createdItem['role']]
           }
         });
+        success = true;
         this.$vaToast.init({ message: 'Employé créé', color:'success', duration: 3000 })
       }
       catch(e) {
@@ -194,7 +201,8 @@ export default defineComponent({
         this.$vaToast.init({ message: message, color:'danger', duration: 3000 })
       }
       finally {
-        // loading = false;
+        this.loading = false;
+        return success;
       }
     }
   },
