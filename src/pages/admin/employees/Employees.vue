@@ -1,5 +1,5 @@
 <template>
-  <va-data-table :items="items" :columns="columns" striped>
+  <va-data-table :items="items" :columns="columns" :hoverable="true">
     <template #headerAppend>
       <tr class="table-example--slot">
         <th
